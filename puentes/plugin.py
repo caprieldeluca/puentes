@@ -14,23 +14,13 @@ email                : caprieldeluca@gmail.com
 """
 
 import io
-import importlib
-import os
 import runpy
-import sys
+from pathlib import Path
 
-from qgis import processing
 from qgis.core import (
-    QgsApplication,
-    QgsSettings)
+    QgsApplication)
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtCore import (
-    QCoreApplication,
-    QLocale,
-    QSettings,
-    QTranslator,
-    QUrl
-)
+from qgis.PyQt.QtCore import QSettings
 from qgis.PyQt.QtWidgets import (
     QAction,
     QMenu,
@@ -43,53 +33,22 @@ class Puentes:
 
     def __init__(self, iface):
         """Init the plugin."""
-
         self.iface = iface
 
-        self.welcome_path = os.path.join(
-            os.path.dirname(__file__),
-            'welcome.py')
+        self.welcome_path = str(Path(__file__).parent / 'welcome.py')
+        self.file_path = QSettings().value('plugins/puentes/file_path', self.welcome_path)
 
-        self.ensure_settings()
-
-        # Init attributes
-        self.recent = QSettings().value('puentes/recent')
-        self.recent_list = [r for r in self.recent.split(',')]
-
-        self.file_path = self.recent_list[0]
-
-        self.max_length = int(QSettings().value('puentes/max_length'))
-
-    def ensure_settings(self):
-        """ Ensure that (at least default) settings exist."""
-
-        if not QSettings().contains('puentes/recent'):
-            QSettings().setValue(
-                'puentes/recent',
-                os.path.join(os.path.dirname(__file__),'welcome.py'))
-
-        if not QSettings().contains('puentes/max_length'):
-            QSettings().setValue(
-                'puentes/max_length',
-                10)
-
-        if not QSettings().contains('puentes/ui/work_dir'):
-            QSettings().setValue(
-                'puentes/work_dir',
-                '')
 
     def initGui(self):
-        """Init actions, run methods, menu entries and provider."""
+        """Init actions, menu entries and toolbar."""
         # Init actions
         self.run_action = QAction(
-            icon=QIcon(os.path.join(os.path.dirname(__file__),
-                'run.png')),
+            icon=QIcon(str(Path(__file__).parent / 'run.png')),
             text='&Run',
             parent=self.iface.mainWindow()
         )
         self.configure_action = QAction(
-            icon=QIcon(os.path.join(os.path.dirname(__file__),
-                'configure.png')),
+            icon=QIcon(str(Path(__file__).parent / 'configure.png')),
             text='&Configure',
             parent=self.iface.mainWindow()
         )
@@ -108,9 +67,10 @@ class Puentes:
         ])
         self.iface.pluginMenu().addMenu(self.menu)
         # Init toolbar
-        self.toolbar = self.iface.addToolBar('Puentes')
-        self.toolbar.setObjectName('Puentes_toolbar')
+        self.toolbar = self.iface.addToolBar('Puentes Toolbar')
+        self.toolbar.setObjectName('Puentes Toolbar')
         self.toolbar.addAction(self.run_action)
+
 
     def unload(self):
         """Remove menu entry and toolbar."""
@@ -124,6 +84,7 @@ class Puentes:
         )
         del self.toolbar
 
+
     #####
     # Run command
     #####
@@ -134,14 +95,12 @@ class Puentes:
 
         try:
             runpy.run_path(self.file_path, init_globals={'plog': plog})
-
-            QSettings().setValue(
-                'puentes/recent',
-                self.file_path)
-
+            QSettings().setValue('plugins/puentes/file_path', self.file_path)
 
         except Exception as e:
             plog(type(e), e)
+            raise e
+
 
     #####
     # Configure command
@@ -152,11 +111,11 @@ class Puentes:
         (filename, filter) = QFileDialog.getOpenFileName(
             parent=self.iface.mainWindow(),
             caption='Open Python File',
-            directory=os.path.dirname(self.file_path),
+            directory=str(Path(self.file_path).parent),
             filter="*.py")
 
         if filename:
-            self.file_path = filename
+            self.file_path = str(Path(filename))
             plog("----------")
             plog("File to be run =", self.file_path)
 

@@ -2,7 +2,7 @@
 name=Puentes
 description=Run external Python files inside QGIS.
 
-version=0.2.0
+version=0.3.0
 qgisMinimumVersion=3.0
 qgisMaximumVersion=3.99
 author=Gabriel De Luca
@@ -10,14 +10,15 @@ email=caprieldeluca@gmail.com
 
 about=Simple plugin with utilities to test Python scripts from QGIS.
 
-tracker=http://bugs
-repository=http://repo
+tracker=https://github.com/caprieldeluca/puentes/issues
+repository=https://github.com/caprieldeluca/puentes
 
 tags=python, script, utilities.
 
-homepage=http://homepage
+homepage=https://github.com/caprieldeluca/puentes
 
 changelog=
+    0.3.0 - Move settings to plugin/puentes, only store file_path.
     0.2.0 - Send plog as global to run file
     0.1.0 - First testing release
 

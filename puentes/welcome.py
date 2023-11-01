@@ -2,7 +2,7 @@
 """
 ************************************************************************
 Name                 : welcome.py
-Description          : Welcome script for QGIS puentes pligin.
+Description          : Welcome message for QGIS puentes pligin.
 copyright            : (C) 2023 by Gabriel De Luca
 email                : caprieldeluca@gmail.com
  ***********************************************************************
@@ -13,6 +13,7 @@ email                : caprieldeluca@gmail.com
 ************************************************************************
 """
 
+# plog is passed as a global name from puentes
 
 plog("Welcome to puentes!")
 plog("This file is located in:", __file__)
