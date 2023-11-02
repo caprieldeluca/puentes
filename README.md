@@ -13,7 +13,7 @@ QGIS plugin to run external Python files.
 ----
 ### Installation:
 
-Download .zip file and install from the Plugins Manager.
+Download .zip file from the latest release and install it in the Plugins Manager.
 
 ----
 ### Usage:
