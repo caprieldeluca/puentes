@@ -14,11 +14,11 @@ email                : caprieldeluca@gmail.com
 """
 
 import io
-import runpy
 from pathlib import Path
+import runpy
+import traceback
 
-from qgis.core import (
-    QgsApplication)
+from qgis.core import QgsApplication
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtCore import QSettings
 from qgis.PyQt.QtWidgets import (
@@ -41,31 +41,30 @@ class Puentes:
 
     def initGui(self):
         """Init actions, menu entries and toolbar."""
+
         # Init actions
         self.run_action = QAction(
             icon=QIcon(str(Path(__file__).parent / 'run.png')),
             text='&Run',
-            parent=self.iface.mainWindow()
-        )
+            parent=self.iface.mainWindow())
         self.configure_action = QAction(
             icon=QIcon(str(Path(__file__).parent / 'configure.png')),
             text='&Configure',
-            parent=self.iface.mainWindow()
-        )
+            parent=self.iface.mainWindow())
+
         # Connect actions to run methods
         self.run_action.triggered.connect(
-            self.run_command
-        )
+            self.run_command)
         self.configure_action.triggered.connect(
-            self.configure_command
-        )
+            self.configure_command)
+
         # Init menu
         self.menu = QMenu('&Puentes')
         self.menu.addActions([
             self.run_action,
-            self.configure_action
-        ])
+            self.configure_action])
         self.iface.pluginMenu().addMenu(self.menu)
+
         # Init toolbar
         self.toolbar = self.iface.addToolBar('Puentes Toolbar')
         self.toolbar.setObjectName('Puentes Toolbar')
@@ -76,12 +75,10 @@ class Puentes:
         """Remove menu entry and toolbar."""
         self.iface.removePluginMenu(
             '&Puentes',
-            self.run_action
-        )
+            self.run_action)
         self.iface.removePluginMenu(
             '&Puentes',
-            self.configure_action
-        )
+            self.configure_action)
         del self.toolbar
 
 
@@ -92,14 +89,13 @@ class Puentes:
         """Load (run) the bridged module"""
 
         plog("----------")
-
+        plog("Run:", self.file_path)
         try:
             runpy.run_path(self.file_path, init_globals={'plog': plog})
             QSettings().setValue('plugins/puentes/file_path', self.file_path)
 
         except Exception as e:
-            plog(type(e), e)
-            raise e
+            plog(*traceback.format_exception(e, limit=-1))
 
 
     #####
@@ -117,7 +113,7 @@ class Puentes:
         if filename:
             self.file_path = str(Path(filename))
             plog("----------")
-            plog("File to be run =", self.file_path)
+            plog("Configured to run:", self.file_path)
 
 
 #####
