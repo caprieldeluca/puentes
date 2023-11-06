@@ -16,5 +16,4 @@ email                : caprieldeluca@gmail.com
 # plog is passed as a global name from puentes
 
 plog("Welcome to puentes!")
-plog("This file is located in:", __file__)
 plog("Select the file you want to run from the Plugins/Puentes/Configure menu entry.")
