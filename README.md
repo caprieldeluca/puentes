@@ -43,4 +43,4 @@ plog("Hello world!")
 ----
 ### mochila:
 
-If you want to import a personal toolbox of pyqgis modules as a package, in which you can edit files, write new code and run it trhough _puentes_ plugin, see the [mochila project](https://github.com/caprieldeluca/mochila).
+If you want to import a personal toolbox of pyqgis modules as a package, in which you can edit files, write new code and run it through _puentes_ plugin, see the [mochila project](https://github.com/caprieldeluca/mochila).
