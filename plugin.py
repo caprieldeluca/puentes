@@ -16,7 +16,7 @@ email                : caprieldeluca@gmail.com
 import io
 from pathlib import Path
 import runpy
-import traceback
+import sys, traceback
 
 from qgis.core import QgsApplication
 from qgis.PyQt.QtGui import QIcon
@@ -94,8 +94,19 @@ class Puentes:
             runpy.run_path(self.file_path, init_globals={'plog': plog})
             QSettings().setValue('plugins/puentes/file_path', self.file_path)
 
-        except Exception as e:
-            plog(*traceback.format_exception(e, limit=-1))
+        except Exception:
+            # From Python 3.10 only exc_value (the Exception instance) is needed,
+            # exc_type and exc_traceback are preserved for backwards compatibility
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            # Create a StackSummary object to get its length
+            stack_length = len(traceback.extract_tb(exc_traceback))
+            # Define limit as negative index to remove first frame 
+            #  (this file exception) from the stacktrace
+            limit = 1 - stack_length
+            plog(*traceback.format_exception(exc_type,
+                                            exc_value,
+                                            exc_traceback,
+                                            limit=limit))
 
 
     #####
