@@ -92,11 +92,10 @@ class Puentes:
         plog("Run:", self.file_path)
         try:
             runpy.run_path(self.file_path, init_globals={'plog': plog})
-            QSettings().setValue('plugins/puentes/file_path', self.file_path)
 
         except Exception:
             # From Python 3.10 only exc_value (the Exception instance) is needed,
-            # exc_type and exc_traceback are preserved for backwards compatibility
+            #  exc_type and exc_traceback are preserved for backwards compatibility
             exc_type, exc_value, exc_traceback = sys.exc_info()
             # Create a StackSummary object to get its length
             stack_length = len(traceback.extract_tb(exc_traceback))
@@ -123,6 +122,10 @@ class Puentes:
 
         if filename:
             self.file_path = str(Path(filename))
+            # Save the path to settings right here, so it does not
+            #  depend on run.
+            QSettings().setValue('plugins/puentes/file_path', self.file_path)
+            
             plog("----------")
             plog("Configured to run:", self.file_path)
 
