@@ -2,7 +2,7 @@
 """
 ************************************************************************
 Name                 : welcome.py
-Description          : Welcome message for QGIS puentes pligin.
+Description          : Welcome message for QGIS puentes plugin.
 copyright            : (C) 2023 by Gabriel De Luca
 email                : caprieldeluca@gmail.com
  ***********************************************************************
