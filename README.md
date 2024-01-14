@@ -51,9 +51,9 @@ If you want to import a personal toolbox of pyqgis modules as a package, in whic
 ----
 ### notes:
 
-- The QGIS Log Message panel does not allow to print angle brackets (_'<'_ and _'>'_) or content between them, so the _plog_ function replaces them with an -arbitrary- choice of characters (_'~::'_ and _':: ~'_).
+- The QGIS Log Messages panel does not allow to print angle brackets (_'<'_ and _'>'_) or content between them, so the _plog_ function replaces them with an -arbitrary- choice of characters (_'~::'_ and _':: ~'_).
 - The _plog_ function is not intended to collapse with the built-in _print_ function, and it is not recommended to bind their names in the file to be run, so _print_ continues to have its normal -for code run in QGIS but outside QGIS Python Console- behavior (i.e., if QGIS is launched from a shell console or terminal emulator, _print_ will send messages there).
-- The path of the file to run is saved in a QGIS setting for the active user profile, in the _/plugins/puentes/file_path_ node. This setting is not adapted to the new (as per QGIS 3.32) settings tree widget.
+- The path of the file to run is saved in a QGIS setting for the active user profile, in the _/plugins/puentes/file_path_ node. This setting will not be shown in the new (as per QGIS 3.32) settings tree widget.
 - Changes in version 1.1:
   - In the event of an exception, the stack trace is logged from the _FrameSummary_ object with index 1, that is, from _runpy.run_path_ (old behavior: log only last object).
   - The path of file to be run is saved in settings each time a new file is configured to run (old behavior: the setting was saved only on run success).
